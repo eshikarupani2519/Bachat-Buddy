@@ -1,0 +1,31 @@
+<div>
+  <h1 class="form-header">POST</h1>
+<form class="reg-form" [formGroup]="regFormGroup" (ngSubmit)="submitData()">
+
+<div class="label-input">
+    <label for="name">name</label>
+    <input type="text" name="name" required formControlName="name">
+</div>
+<p *ngIf="isFormControlError('name')" class="errors">name required</p>
+<div class="label-input">
+    <label for="surname">surname</label>
+    <input type="text" name="surname" required formControlName="surname">
+</div>
+
+<p *ngIf="isFormControlError('surname')" class="errors">surname required</p>
+<div class="label-input">
+    <label for="email">Email</label>
+    <input type="email" name="email" required email formControlName="email">
+</div>
+<p *ngIf="this.getFormControl('email')?.dirty && this.getFormControl('email')?.touched && this.getFormControl('email')?.errors?.['email']" class="errors">invalid email</p>
+<p *ngIf="isFormControlError('email')" class="errors">email required</p>
+
+<div class="label-input">
+    <label for="phone">phone</label>
+    <input type="text" name="phone" required formControlName="phone">
+</div>
+<p *ngIf="isFormControlError('phone')" class="errors">phone required</p>
+<button [disabled]="this.regFormGroup.invalid" class="post-btn">Register</button>
+<button type="reset">reset</button>
+</form>
+</div>

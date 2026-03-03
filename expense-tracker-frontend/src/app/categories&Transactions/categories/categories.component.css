@@ -1,0 +1,185 @@
+/* ===== GLOBAL ===== */
+body {
+    margin: 0;
+    padding: 40px;
+    font-family: "Poppins", sans-serif;
+    background: linear-gradient(
+        135deg,
+        #ffffff 0%,
+        #f6f3fa 30%,
+        #e6dbf3 70%,
+        #d4c2ea 100%
+    );
+    color: #3e3550;
+}
+
+/* ===== MAIN CONTAINER ===== */
+.currency-note {
+    background: rgba(255, 255, 255, 0.75);
+    backdrop-filter: blur(12px);
+    border-radius: 28px;
+    padding: 40px;
+    box-shadow: 0 25px 60px rgba(184, 158, 220, 0.25);
+    position: relative;
+    overflow: hidden;
+}
+
+/* ===== Subtle Rupee Background Pattern ===== */
+.currency-note::before {
+    content: "💷 ₹ ₹ ₹ 💷 ₹ ₹ ₹ 💷  ₹ ₹ ₹ 💷 ₹ ₹ ₹ 💷";
+    position: absolute;
+    font-size: 120px;
+    font-weight: bold;
+    color: rgba(184, 158, 220, 0.07);
+    top: 20%;
+    left: 10%;
+    transform: rotate(-20deg);
+    pointer-events: none;
+}
+
+/* ===== Heading ===== */
+h1 {
+    font-size: 32px;
+    font-weight: 600;
+    background: linear-gradient(90deg, #b89edc, #8e79c9);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 25px;
+}
+
+/* ===== Buttons ===== */
+button {
+    background: linear-gradient(135deg, #d4c2ea, #b89edc);
+    border: none;
+    padding: 10px 22px;
+    border-radius: 30px;
+    color: white;
+    font-weight: 500;
+    cursor: pointer;
+    box-shadow: 0 8px 18px rgba(184, 158, 220,0.5);
+    transition: 0.3s ease;
+}
+
+button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(184, 158, 220);
+}
+
+/* ===== TABLE ===== */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 30px;
+    background: rgba(255,255,255,0.85);
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+/* Header */
+th {
+    background: linear-gradient(90deg, #e6dbf3, #d4c2ea);
+    padding: 15px;
+    text-transform: uppercase;
+    font-size: 13px;
+    letter-spacing: 1px;
+    color: #4b3f63;
+}
+
+/* Rows */
+td {
+
+    padding: 14px;
+    border: 1px solid rgba(184, 158, 220, 0.2);
+}
+
+tr:hover {
+    background: rgba(212, 194, 234, 0.25);
+}
+
+/* ===== Modal ===== */
+
+.modal {
+    display: none; /* or flex when active */
+    position: fixed;
+    
+    inset: 0;
+    background: rgba(0, 0, 0, 0.25); /* dark transparent layer */
+    backdrop-filter: blur(6px); /* background blur */
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+/* ===== EDIT BUTTON ===== */
+.edit-btn {
+    background: #b89edc;   /* deeper ₹100 tone */
+    color: #ffffff;
+    border: none;
+    padding: 8px 18px;
+    border-radius: 20px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+.edit-btn:hover {
+    background: #9f83cf;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 14px rgba(184, 158, 220, 0.4);
+}
+
+/* ===== DELETE BUTTON ===== */
+.delete-btn {
+    background: #e57373;   /* stronger soft red */
+    color: #ffffff;
+    border: none;
+    padding: 8px 18px;
+    border-radius: 20px;
+    font-weight: 500;
+    cursor: pointer;
+    margin-left: 6px;
+    transition: 0.3s ease;
+}
+
+.delete-btn:hover {
+    background: #d65c5c;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 14px rgba(214, 92, 92, 0.4);
+}
+/* When active */
+.modal.active {
+    display: flex;
+}
+.modal-content {
+    background: linear-gradient(
+        135deg,
+        #ffffff,
+        #f6f3fa,
+        #e6dbf3
+    );
+    width:40vw;
+    border-radius: 25px;
+    padding: 30px;
+    box-shadow: 0 20px 50px rgba(184, 158, 220, 0.35);
+}
+
+/* ===== Form Inputs ===== */
+input, select {
+    width: 100%;
+    padding: 10px;
+    border-radius: 12px;
+    border: 1px solid #d4c2ea;
+    margin-top: 8px;
+    background: white;
+}
+
+input:focus, select:focus {
+    outline: none;
+    border-color: #b89edc;
+    box-shadow: 0 0 8px rgba(184, 158, 220, 0);
+}
+
+/* Submit */
+.submit-btn {
+    margin-top: 20px;
+    width: 100%;
+}

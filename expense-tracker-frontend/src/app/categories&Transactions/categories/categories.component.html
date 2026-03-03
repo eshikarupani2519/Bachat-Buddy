@@ -1,0 +1,60 @@
+<div class="currency-note">
+<h1 style="text-align: center;">Categories</h1>
+<div style="display: flex;justify-content: space-between;">
+    <input type="text" [(ngModel)]="search" placeholder="Search 🔍" style="width: 80%;">
+<button class="add-btn" (click)="openModal()" >+ Add Category</button>
+</div>
+
+
+<table>
+    <thead>
+        <tr>
+            <th>Category Name</th>
+            <th>Description</th>
+            <th>Transaction Type</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let category of categories">
+          
+            <td style="display: flex;align-items: center;max-width: 27vw;"> <img *ngIf="category.icon_url" [src]="category.icon_url" style="margin-right: 15px;width: 50px; height: 50px; border-radius: 50%;"><div *ngIf="!category.icon_url" style="width: 50px; height: 50px; border-radius: 50%;background-color: rgb(247, 198, 255);display: flex;justify-content: center;align-items: center;margin-right: 15px;">{{category.name.charAt(0).toUpperCase()}}</div> {{category.name}}</td>
+            <td *ngIf="category.description" style="max-width: 40vw;">{{category.description}}</td>
+            <td *ngIf="!category.description" style="max-width: 40vw;">---</td>
+            <td>{{category.transaction_type}}</td>
+            <td>
+                <button class="edit-btn" (click)="editCategory(category.id)">Edit</button>
+                <button class="delete-btn" (click)="deleteCategory(category.id)">Delete</button>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<!-- Modal -->
+<div class="modal" id="categoryModal" [style.display]="isModalOpen ? 'flex' : 'none'">
+    <div class="modal-content">
+        <span class="close" (click)="closeModal()">&times;</span>
+        <h2>Add Category</h2>
+
+        <form [formGroup]="categoryForm" (ngSubmit)="addCategory()">
+            <label for="name">Name *</label>
+            <input type="text" maxlength="50" name="name" formControlName="name"  required>
+
+            <label for="description">Description</label>
+            <input type="text" name="description" formControlName="description"  maxlength="50">
+
+            <label for="icon_url">Icon URL</label>
+            <input type="text" maxlength="255" name="icon_url" formControlName="icon_url">
+
+            <label for="transaction_type">Transaction Type *</label>
+            <select required name="transaction_type" formControlName="transaction_type">
+                <option value="expense" selected>Expense</option>
+                <option value="income">Income</option>
+            </select>
+
+            <button type="submit" class="submit-btn" *ngIf="!isEditMode">Save Category</button>
+            <button type="submit" class="submit-btn" *ngIf="isEditMode">Update Category</button>
+        </form>
+    </div>
+</div>
+</div>

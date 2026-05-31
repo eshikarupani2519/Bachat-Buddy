@@ -38,6 +38,10 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-mail'
 	// Source: https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-security
 	implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation 'org.springframework.ai:spring-ai-starter-model-google-genai:2.0.0-M2'
+	implementation 'com.github.librepdf:openpdf:3.0.3'
+	// Source: https://mvnrepository.com/artifact/org.springdoc/springdoc-openapi-starter-webmvc-ui
+	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.9'
 }
 
 tasks.named('test') {

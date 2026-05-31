@@ -50,4 +50,13 @@ public class CategoryRepository {
     public void deleteCategory(int id,int user_id){
         jdbcTemplate.update("update category set activeYN=0 where id=? and user_id=?",id,user_id);
     }
+    public int getCategoryByName(int user_id,String name,String type){
+        try {
+            Category cat= jdbcTemplate.queryForObject("select * from category where user_id=? and name=? and transaction_type=? and activeYN=1",new CategoryMapper(),user_id,name,type);
+            return cat.getId();
+        } catch (EmptyResultDataAccessException e) {
+            return -1;
+        }
+
+    }
 }

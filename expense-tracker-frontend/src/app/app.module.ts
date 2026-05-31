@@ -9,9 +9,13 @@ import { TransactionsComponent } from './categories&Transactions/transactions/tr
 import { SharedModule } from './shared/shared.module';
 import { NavbarComponent } from './shared/navbar/navbar.component';
 
+import { DashboardComponent } from './categories&Transactions/dashboard/dashboard.component';
+
 @NgModule({
   declarations: [
     AppComponent,
+   
+    DashboardComponent,
     // NavbarComponent
   
 

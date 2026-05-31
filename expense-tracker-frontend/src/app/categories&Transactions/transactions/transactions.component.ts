@@ -28,6 +28,7 @@ rowsPerPage:number
 })
 
 export class TransactionsComponent {
+hasNextPage = true;
    isEditMode:boolean=false;
   idToEdit:number=-1;
   transactions: Transaction[] = [];
@@ -49,9 +50,10 @@ type:"",
 column:"",
 direction:"",
 pageNo:1,
-rowsPerPage:100
+rowsPerPage:10
   } ;
-  
+  fileContent!: string;
+  fileResponse!:any;
 
   constructor(private fb: FormBuilder,private categoriesService:CategoriesService,private router:Router) {}
 
@@ -87,13 +89,28 @@ this.showDates=true;
 getTransactions(){
   this.categoriesService.getTransactions(this.filters).subscribe({
     next:(res:any)=>{
-      console.log(res.body);
-      this.transactions=res.body;
+      this.transactions = res.body;
+
+      // 🔥 core logic
+      this.hasNextPage = this.transactions.length === this.filters.rowsPerPage;
     },
     error:(err:any)=>{
       console.log(err);
     }
   })
+}
+nextPage(){
+  if(this.hasNextPage){
+    this.filters.pageNo++;
+    this.getTransactions();
+  }
+}
+
+prevPage(){
+  if(this.filters.pageNo > 1){
+    this.filters.pageNo--;
+    this.getTransactions();
+  }
 }
   // ===== Modal Controls =====
   openModal() {
@@ -115,7 +132,7 @@ getTransactions(){
       console.log(newTransaction);
       this.categoriesService.createTransaction(newTransaction).subscribe({
         next:(res:any)=>{
-          console.log(res);
+          console.log("added:"+res);
 
         },
         error:(err:any)=>{
@@ -131,15 +148,17 @@ getTransactions(){
 
   // ===== Filtering =====
   applyFilters() {
-   this.categoriesService.getTransactions(this.filters).subscribe({
-    next:(res:any)=>{
-      console.log("after filtering:",res);
-      this.transactions=res.body;
-    },
-    error:(err:any)=>{
-      console.log(err);
-    }
-   })
+  //  this.categoriesService.getTransactions(this.filters).subscribe({
+  //   next:(res:any)=>{
+  //     console.log("after filtering:",res);
+  //     this.transactions=res.body;
+  //   },
+  //   error:(err:any)=>{
+  //     console.log(err);
+  //   }
+  //  })
+  this.filters.pageNo = 1;  
+  this.getTransactions();
   }
 onFilterChangeOfDates(start:string|null, end:string|null){
 if(start!=null)this.filters.start=start;
@@ -168,5 +187,82 @@ this.applyFilters();
     this.applyFilters();
   }
  
+  selectedFile!: File ;
+
+onFileSelected(event: any): void {
+   this.selectedFile = event.target.files[0];
+
+  
+}
+  
+  onUpload(): void {
+    if (!this.selectedFile) return;
+
+  // const reader = new FileReader();
+
+  // reader.onload = () => {
+  //   const text = reader.result as string;
+
+  //   const lines = text.split(/\r?\n/).filter(line => line.trim() !== '');
+
+  //   // First row → headers
+  //   this.headers = lines[0].split(',');
+
+  //   // Remaining rows
+  //   this.rows = lines.slice(1).map(line => line.split(','));
+
+  //   console.log(this.headers);
+  //   console.log(this.rows);
+  // };
+
+  // reader.readAsText(this.selectedFile);
+    this.categoriesService.bulkUpload(this.selectedFile).subscribe({
+      next:(res:any)=>{
+        console.log(res.body);
+        this.fileResponse=res.body;
+        
+        this.getTransactions();
+      }
+    })
+}
+editTransaction(id:number){
+  this.isEditMode=true;
+  this.openModal();
+ this.idToEdit=id;
+ this.categoriesService.getTransactionById(id).subscribe({
+  next:(res:any)=>{
+    console.log(res.body);
+    this.transactionForm.patchValue(res.body);
+  },
+  error:(err:any)=>{
+    console.log(err.body);
+  }
+ })
  
+}
+submitEdittedTransaction(){
+  let transData=this.transactionForm.value;
+  this.categoriesService.editTransaction(this.idToEdit,transData).subscribe({
+    next:(res:any)=>{
+      console.log(res.body);
+      alert(res.body);
+      this.getTransactions();
+    },
+    error:(err:any)=>{
+      console.log(err);
+    }
+  })
+}
+deleteTransaction(id:number){
+  this.categoriesService.deleteTransaction(id).subscribe({
+     next:(res:any)=>{
+      console.log(res.body);
+      alert(res.body);
+      this.getTransactions();
+    },
+    error:(err:any)=>{
+      console.log(err);
+    }
+  })
+}
 }

@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 @Repository
@@ -123,5 +124,18 @@ public class UserRepository {
     }
     public void updateUsedToken(String token){
         jdbcTemplate.update("update resetPasswordTokens set usedYN=1 where token=?",token);
+    }
+    public List<User> getAllUsers(){
+       List<User> users= jdbcTemplate.query("select username,id,name,email,phone from user where activeYN=1",(rs, rowNum) -> {
+            User user = new User();
+            user.setUsername(rs.getString("username"));
+            user.setId(rs.getInt("id"));
+            user.setName(rs.getString("name"));
+            user.setEmail(rs.getString("email"));
+            user.setPhone(rs.getLong("phone"));
+
+            return user;
+        });
+    return users;
     }
 }

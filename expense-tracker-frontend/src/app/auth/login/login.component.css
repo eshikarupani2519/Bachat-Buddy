@@ -1,6 +1,9 @@
 *{
     margin-bottom:0.5rem;
 }
+.navbar{
+  display:none;
+}
 .reg-form{
     display: flex;
     flex-direction: column;

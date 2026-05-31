@@ -53,12 +53,13 @@ console.log(userData)
         alert("Logged in successfully");
         // localStorage.setItem("id",this.id.toString())
         this.regFormGroup.reset();
-        this.routeToPage('categories');
+        this.routeToPage('dashboard');
       },
       error: (err:any) => {
         console.error('Login error:', err);
-        alert(err.error?.body );
-        alert(err.error?.text );
+       if(err.body) alert(err.body );
+       else alert("some error occurred");
+        // alert(err.error?.text );
       },
     });
   }

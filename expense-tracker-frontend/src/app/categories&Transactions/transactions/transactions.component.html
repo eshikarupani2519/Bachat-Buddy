@@ -12,7 +12,7 @@
             <button (click)="openModal()">Add Transaction</button>
         </div>
 
-        <table >
+        <table>
             <thead>
                 <tr>
                     <th>ID</th>
@@ -27,20 +27,21 @@
                         <button (click)="onSort('dateOfTransaction','desc')" style="margin: 5px;"><i
                                 class="fa-solid fa-arrow-down-short-wide fa-rotate-180"
                                 style="color: rgb(0, 4, 10);"></i></button>
-                                <button (click)="showDateFields()">Filter</button>
-                                <div *ngIf="showDates" style="display: flex;flex-direction: column;">
-                                    <label for="start">Start date</label>
-                                    <input type="date"  name="start" [(ngModel)]="start" id="">
-                                    <label for="end">End date</label>
-                                    <input type="date"  name="end" [(ngModel)]="end" id="">
-                                    <button (click)="onFilterChangeOfDates(start,end)"><i class="fa-solid fa-filter" style="color: rgb(0, 4, 10);"></i></button>
-                                </div>
+                        <button (click)="showDateFields()">Filter</button>
+                        <div *ngIf="showDates" style="display: flex;flex-direction: column;">
+                            <label for="start">Start date</label>
+                            <input type="date" name="start" [(ngModel)]="start" id="">
+                            <label for="end">End date</label>
+                            <input type="date" name="end" [(ngModel)]="end" id="">
+                            <button (click)="onFilterChangeOfDates(start,end)"><i class="fa-solid fa-filter"
+                                    style="color: rgb(0, 4, 10);"></i></button>
+                        </div>
                     </th>
-                    <th>Type 
-                        <select name="type" (change)="onFilterChange('type',$event)" >
-                            <option value="" >Filter</option>
-                            <option value="income" >Income</option>
-                            <option value="expense" >Expense</option>
+                    <th>Type
+                        <select name="type" (change)="onFilterChange('type',$event)">
+                            <option value="">Filter</option>
+                            <option value="income">Income</option>
+                            <option value="expense">Expense</option>
                         </select>
                     </th>
                     <th>Category
@@ -58,19 +59,68 @@
                         </select>
                     </th>
                     <th>Notes </th>
+                    <th>Actions </th>
                 </tr>
             </thead>
             <tbody>
                 <tr *ngFor="let trans of transactions">
-                    <td >{{trans.id}}</td>
-                    <td >{{trans.amount}}</td>
-                    <td >{{trans.dateOfTransaction}}</td>
-                    <td >{{trans.transaction_type}}</td>
-                    <td >{{trans.category_name}}</td>
-                    <td >{{trans.notes}}</td>
+                    <td>{{trans.id}}</td>
+                    <td>{{trans.amount}}</td>
+                    <td>{{trans.dateOfTransaction}}</td>
+                    <td>{{trans.transaction_type}}</td>
+                    <td>{{trans.category_name}}</td>
+                    <td>{{trans.notes}}</td>
+                    <td style="display: flex;"><button (click)="editTransaction(trans.id)" style="background: transparent;font-size: 1.5rem;width: fit-content;padding: 0;
+                     margin-right: 7px;"><i class="fa-regular fa-pen-to-square"
+                                style="color: rgb(39, 155, 247);"></i></button><button
+                            (click)="deleteTransaction(trans.id)"
+                            style="background: transparent;width: fit-content;padding: 0;"><i class="fa-solid fa-trash"
+                                style="color: rgb(231, 15, 15);font-size: 1.5rem;"></i></button></td>
                 </tr>
             </tbody>
+            <div class="pagination">
+                <button (click)="prevPage()" [disabled]="filters.pageNo === 1">Prev</button>
+
+                <span>Page {{filters.pageNo}}</span>
+
+                <button (click)="nextPage()" [disabled]="!hasNextPage">Next</button>
+            </div>
         </table>
+        <h1>bulk upload</h1>
+        <input type="file" (change)="onFileSelected($event)" accept=".csv">
+        <button (click)="onUpload()" [disabled]="!selectedFile">upload</button>
+        <div *ngIf="fileResponse">
+            <h2>Uploaded file</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Status</th>
+                        <th>ID</th>
+                        <th>Amount</th>
+                        <th>Note</th>
+                        <th>Category</th>
+                        <th>Date</th>
+                        <th>type</th>
+                        <th>Errors</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let row of fileResponse;let i=index">
+                        <td>{{row.errors.length==0?'✅':'❌'}}</td>
+                        <td>{{i+1}}</td>
+                        <td>{{row.amount}}</td>
+                        <td>{{row.notes}}</td>
+                        <td>{{row.category}}</td>
+                        <td>{{row.date}}</td>
+                        <td>{{row.type}}</td>
+
+                        <td>
+                            <div *ngFor="let error of row.errors">{{error}}</div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 
 </div>
@@ -79,13 +129,15 @@
 <div class="modal" id="categoryModal" [style.display]="showModal ? 'flex' : 'none'">
     <div class="modal-content">
         <span class="close" (click)="closeModal()">&times;</span>
-        <h2>Add Category</h2>
+        <h2 *ngIf="!isEditMode">Add Transaction</h2>
+        <h2 *ngIf="isEditMode">Edit Transaction</h2>
 
-        <form [formGroup]="transactionForm" (ngSubmit)="addTransaction()">
+        <form [formGroup]="transactionForm" (ngSubmit)="isEditMode?submitEdittedTransaction():addTransaction()">
             <label for="category_id">Category Name *</label>
             <select required name="category_id" formControlName="category_id">
                 <optgroup label="income">
-                    <option *ngFor="let category of categories.income" value="category">{{category}}</option>
+                    <option *ngFor="let category of categories.income" value="{{category.id}}">{{category.name}}
+                    </option>
                 </optgroup>
                 <optgroup label="expense">
                     <option *ngFor="let category of categories.expense" value={{category.id}}>{{category.name}}</option>

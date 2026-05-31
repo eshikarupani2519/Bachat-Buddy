@@ -51,4 +51,25 @@ export class CategoriesService {
     withCredentials: true
   });
 }
+  getTransactionById(id:number){
+    return this.http.get(`${this.api_url}/transactions/${id}`,{withCredentials:true});
+  }
+editTransaction(id:number,trans:any){
+return this.http.put(`${this.api_url}/transactions/${id}`,trans,{withCredentials:true});
+}
+deleteTransaction(id:number){
+    return this.http.patch(`${this.api_url}/transactions/${id}`,id,{withCredentials:true});
+  }
+bulkUpload(file:any){
+  const formData=new FormData();
+  formData.append("file",file);
+  // yeh file name "file" should be same as the request param in backend route
+  return this.http.post(`${this.api_url}/transactions/bulk-upload`,formData, {
+   
+    withCredentials: true
+  })
+}
+getDashboard(){
+  return this.http.get(`${this.api_url}/getDashboard`,{withCredentials:true});
+}
 }

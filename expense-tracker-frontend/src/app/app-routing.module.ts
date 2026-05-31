@@ -6,6 +6,7 @@ import { ForgotPasswordComponent } from './auth/forgot-password/forgot-password.
 import { ResetPasswordComponent } from './auth/reset-password/reset-password.component';
 import { CategoriesComponent } from './categories&Transactions/categories/categories.component';
 import { TransactionsComponent } from './categories&Transactions/transactions/transactions.component';
+import { DashboardComponent } from './categories&Transactions/dashboard/dashboard.component';
 
 const routes: Routes = [
   {path:"",component:LoginComponent,pathMatch:"full"},
@@ -26,6 +27,9 @@ const routes: Routes = [
   },
   {
     path:"transactions",component:TransactionsComponent
+  },
+   {
+    path:"dashboard",component:DashboardComponent
   },
 
 ];

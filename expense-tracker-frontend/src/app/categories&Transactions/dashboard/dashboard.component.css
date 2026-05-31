@@ -1,0 +1,46 @@
+.pieContainer{
+    
+    height:300px;
+    width:350px;
+    margin-right:50px;
+    margin-bottom:100px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+}
+.lineContainer{
+    height:250px;
+    width:450px;
+    margin-right:50px;
+    margin-bottom:50px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+}
+.barContainer{
+    height:250px;
+    width:450px;
+    margin-right:50px;
+    margin-bottom:50px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+}
+.body{
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:center;
+    
+}
+/* .currency-note::before {
+    content: "💷 ₹ ₹ ₹ 💷 ";
+    position: absolute;
+    font-size: 120px;
+    font-weight: bold;
+    color: rgba(184, 158, 220, 0.07);
+    top: 30%;
+    left: 10%;
+    transform: rotate(-20deg);
+    pointer-events: none;
+   
+} */

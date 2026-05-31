@@ -9,10 +9,11 @@
     left: 10%;
     transform: rotate(-20deg);
     pointer-events: none;
+   
 }
 /* ===== PAGE CONTAINER ===== */
 .container {
-    padding: 40px;
+    padding: 40px; 
 }
 
 /* ===== CARD STYLE ===== */
@@ -123,4 +124,11 @@ select,input[type="date"],
     
     border-radius: 10px;
     border: 1px solid #d4c2ea;
+}
+.pagination {
+    margin-top: 15px;
+    display: flex;
+    justify-content: end;
+    gap: 15px;
+    
 }

@@ -3,6 +3,7 @@ package com.sgt.expense_tracker.config;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -26,7 +27,10 @@ public class SecurityConfig {
         http
                 .cors(cors->cors.configurationSource(corsConfigurationSource()))
                 .csrf(csrf->csrf.disable())
-                .authorizeHttpRequests(auth-> auth.requestMatchers("/register","/login","/reset","/changePassword/{token}").permitAll().anyRequest().authenticated())
+                .authorizeHttpRequests(auth-> auth.requestMatchers("/register","/login","/reset","/changePassword/{token}", "/v3/api-docs/**",
+                        "/swagger-ui/**",
+                        "/swagger-ui.html",
+                        "/v3/api-docs").permitAll().anyRequest().authenticated())
                 .formLogin(form->form.loginProcessingUrl("/login")
                         .usernameParameter("email")
                                 .successHandler((req,res,auth)->{
@@ -38,21 +42,22 @@ public class SecurityConfig {
                                 .failureHandler((req,res,ex)->{
                                     res.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
                                     res.setContentType("application/json");
-                                    res.getWriter().write("\"error\":\"Invalid credentials\"");
+                                    res.getWriter().write("{\"error\":\"Invalid credentials\"}");
                                 })
                         )
                 .exceptionHandling(ex->
                         ex.authenticationEntryPoint((req,res,ex2)->{
                             res.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
                             res.setContentType("application/json");
-                            res.getWriter().write("\"error\":\"Please log in\"");
+                            res.getWriter().write("{\"error\":\"Please log in\"}");
                         }));
+
         return http.build();
     }
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration=new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("http://localhost:4200","http://localhost:3000"));
+        configuration.setAllowedOrigins(Arrays.asList("http://localhost:4200","http://localhost:3000","http://localhost:8080"));
         configuration.setAllowedMethods(Arrays.asList("GET","POST","PUT","DELETE","PATCH"));
         configuration.setAllowedHeaders(Arrays.asList("Authorization","Content-Type","Accept"));
         configuration.setAllowCredentials(true);

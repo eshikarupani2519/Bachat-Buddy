@@ -11,7 +11,7 @@ export class AuthService {
    private _loading = new BehaviorSubject<boolean>(false);
     public readonly loading$: Observable<boolean> = this._loading.asObservable();
    
-  private api_url='http://localhost:8080'
+  private api_url='https://bachat-buddy.up.railway.app'
   register(body: any) {
     return this.http.post(`${this.api_url}/register`, body);
   }

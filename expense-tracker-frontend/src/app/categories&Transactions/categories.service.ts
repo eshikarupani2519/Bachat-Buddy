@@ -5,7 +5,7 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class CategoriesService {
-  private api_url="http://localhost:8080"
+  private api_url="https://bachat-buddy.up.railway.app"
   constructor(private http:HttpClient) { }
   addCategory(category:any){
     return this.http.post(`${this.api_url}/categories`,category,{withCredentials:true});

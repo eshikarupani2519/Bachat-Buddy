@@ -44,7 +44,7 @@ export class CategoriesService {
     });
   }
 
-  console.log("Final Query:", params.toString());
+ 
 
   return this.http.get(`${this.api_url}/transactions`, {
     params,
@@ -72,4 +72,7 @@ bulkUpload(file:any){
 getDashboard(){
   return this.http.get(`${this.api_url}/getDashboard`,{withCredentials:true});
 }
+analyzeDashboard(dashboardData: any){
+    return this.http.post<any>(`${this.api_url}/analyze`, dashboardData,{withCredentials:true});
+  }
 }

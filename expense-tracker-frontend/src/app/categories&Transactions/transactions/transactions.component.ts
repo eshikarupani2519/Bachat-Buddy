@@ -32,8 +32,8 @@ hasNextPage = true;
    isEditMode:boolean=false;
   idToEdit:number=-1;
   transactions: Transaction[] = [];
-  filteredTransactions: Transaction[] = [];
-
+  filteredTransactions: Transaction[] =this.transactions;
+search:any=""
   categories:any={
     income:[],expense:[]
   };
@@ -70,14 +70,14 @@ ngOnInit(){
  this.getTransactions();
   this.categoriesService.getCategories().subscribe({
     next:(res:any)=> {
-      console.log(res);
+      
       this.categories.income=res.body.filter((elem:any)=>elem.transaction_type=="income");
       this.categories.expense=res.body.filter((elem:any)=>elem.transaction_type=="expense");
-      console.log(this.categories);
+      
       
     },
     error:(err:any)=>{
-      console.log(err);
+      alert("Failed to load Transactions")
     }
   })
 }
@@ -90,12 +90,12 @@ getTransactions(){
   this.categoriesService.getTransactions(this.filters).subscribe({
     next:(res:any)=>{
       this.transactions = res.body;
-
+      this.filteredTransactions=this.transactions;
       // 🔥 core logic
       this.hasNextPage = this.transactions.length === this.filters.rowsPerPage;
     },
     error:(err:any)=>{
-      console.log(err);
+      alert("Failed to load Transactions")
     }
   })
 }
@@ -121,7 +121,11 @@ prevPage(){
     this.showModal = false;
     this.transactionForm.reset();
   }
-
+onSearch() {
+  this.filteredTransactions = this.transactions.filter(trans =>
+    trans.notes?.toLowerCase().includes(this.search.toLowerCase()) 
+  );
+}
   // ===== Add Transaction =====
   addTransaction() {
     if (this.transactionForm.valid) {
@@ -129,14 +133,14 @@ prevPage(){
       
       this.transactionForm.patchValue({transaction_type:type})
       const newTransaction: any = this.transactionForm.value;
-      console.log(newTransaction);
+      
       this.categoriesService.createTransaction(newTransaction).subscribe({
         next:(res:any)=>{
-          console.log("added:"+res);
+          alert("Added Transaction")
 
         },
         error:(err:any)=>{
-          console.log(err);
+          alert("Failed to add Transaction")
         }
       })
 
@@ -168,7 +172,7 @@ this.applyFilters();
   onFilterChange(key: string, event: Event) {
   const value = (event.target as HTMLSelectElement).value;
 
-  console.log("filter: ", key, ":", value);
+  
 
   switch (key) {
     case "category":
@@ -218,7 +222,7 @@ onFileSelected(event: any): void {
   // reader.readAsText(this.selectedFile);
     this.categoriesService.bulkUpload(this.selectedFile).subscribe({
       next:(res:any)=>{
-        console.log(res.body);
+    
         this.fileResponse=res.body;
         
         this.getTransactions();
@@ -231,11 +235,11 @@ editTransaction(id:number){
  this.idToEdit=id;
  this.categoriesService.getTransactionById(id).subscribe({
   next:(res:any)=>{
-    console.log(res.body);
+    
     this.transactionForm.patchValue(res.body);
   },
   error:(err:any)=>{
-    console.log(err.body);
+    alert("Failed to edit Transaction")
   }
  })
  
@@ -244,24 +248,24 @@ submitEdittedTransaction(){
   let transData=this.transactionForm.value;
   this.categoriesService.editTransaction(this.idToEdit,transData).subscribe({
     next:(res:any)=>{
-      console.log(res.body);
+    
       alert(res.body);
       this.getTransactions();
     },
     error:(err:any)=>{
-      console.log(err);
+      alert("Failed to edit Transaction")
     }
   })
 }
 deleteTransaction(id:number){
   this.categoriesService.deleteTransaction(id).subscribe({
      next:(res:any)=>{
-      console.log(res.body);
+      
       alert(res.body);
       this.getTransactions();
     },
     error:(err:any)=>{
-      console.log(err);
+      alert("Failed to delete Transaction")
     }
   })
 }

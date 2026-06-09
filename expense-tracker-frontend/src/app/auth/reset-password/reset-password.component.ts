@@ -24,7 +24,7 @@ showPage=false;
         this.showPage=true;
       },
       error:(err:any)=>{
-        alert(err.error.body);
+        alert(err.error.body || "Session expired");
         this.router.navigate(['login'])
       }
     })
@@ -43,8 +43,8 @@ showPage=false;
       this.getFormControl('password')?.touched && this.getFormControl('confirmPassword')?.touched
   }
   submitData() {
-    console.log(this.regFormGroup.value)
-    console.log("token:",this.token)
+    
+    
     if (this.regFormGroup.invalid || this.checkPassword()) {
       alert('Please fill all fields correctly');
       return;
@@ -54,13 +54,13 @@ showPage=false;
     
     this.authService.resetPassword(userData,this.token).subscribe({
       next: (response:any) => {
-        console.log('User registered:', response);
+        
         alert(response.body);
         this.regFormGroup.reset();
       },
       error: (err: any) => {
-        console.error('Registration error:', err);
-        alert(err.error.body);
+       
+        alert(err.error?.body || "Failed to reset password");
       },
     });
   }

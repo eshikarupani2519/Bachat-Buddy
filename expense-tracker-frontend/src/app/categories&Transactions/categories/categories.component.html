@@ -1,7 +1,8 @@
+<app-navbar></app-navbar>
 <div class="currency-note">
 <h1 style="text-align: center;">Categories</h1>
 <div style="display: flex;justify-content: space-between;">
-    <input type="text" [(ngModel)]="search" placeholder="Search 🔍" style="width: 80%;">
+    <input type="text" [(ngModel)]="search" placeholder="Search 🔍" (ngModelChange)="onSearch()" style="width: 80%;">
 <button class="add-btn" (click)="openModal()" >+ Add Category</button>
 </div>
 
@@ -16,7 +17,7 @@
         </tr>
     </thead>
     <tbody>
-        <tr *ngFor="let category of categories">
+        <tr *ngFor="let category of filteredcategories">
           
             <td style="display: flex;align-items: center;max-width: 27vw;"> <img *ngIf="category.icon_url" [src]="category.icon_url" style="margin-right: 15px;width: 50px; height: 50px; border-radius: 50%;"><div *ngIf="!category.icon_url" style="width: 50px; height: 50px; border-radius: 50%;background-color: rgb(247, 198, 255);display: flex;justify-content: center;align-items: center;margin-right: 15px;">{{category.name.charAt(0).toUpperCase()}}</div> {{category.name}}</td>
             <td *ngIf="category.description" style="max-width: 40vw;">{{category.description}}</td>

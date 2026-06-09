@@ -44,11 +44,11 @@ isFormControlError(name:string){
 
 
 const userData = this.regFormGroup.value;
-console.log(userData)
+
     // ✅ Send data to backend using service
     this.authService.login(userData).subscribe({
       next: (response:any) => {
-        console.log('User logged in:', response);
+        
         // this.id=response.body;
         alert("Logged in successfully");
         // localStorage.setItem("id",this.id.toString())
@@ -56,7 +56,7 @@ console.log(userData)
         this.routeToPage('dashboard');
       },
       error: (err:any) => {
-        console.error('Login error:', err);
+       
        if(err.body) alert(err.body );
        else alert("some error occurred");
         // alert(err.error?.text );

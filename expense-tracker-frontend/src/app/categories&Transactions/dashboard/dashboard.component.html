@@ -1,28 +1,98 @@
-<div class="body currency-note">
-<div class="pieContainer">
-    <h2>Categorywise Expense Chart for this month</h2>
-    <canvas id="categorywiseExpenseChart" class="chart"></canvas>
-    
-</div>
-<div class="pieContainer" style="text-overflow: clip;">
-    <h2>Categorywise Income Chart for this month</h2>
-    <canvas id="categorywiseIncomeChart" class="chart"></canvas>
-</div>
-<div class="lineContainer">
-    <h2>Monthwise Expense Chart for this year</h2>
-    <canvas id="monthwiseExpenseChart" class="chart"></canvas>
-</div>
-<div class="lineContainer">
-    <h2>Monthwise Income Chart for this year</h2>
-    <canvas id="monthwiseIncomeChart" class="chart"></canvas>
-</div>
-<div class="barContainer">
-    <h2>Income vs Expense Chart for this year</h2>
-    <canvas id="incomevsexpenseChart" class="chart"></canvas>
-</div>
-<div class="lineContainer">
-    <h2>Savings Chart for this year</h2>
-    <canvas id="savingsChart" class="chart"></canvas>
-</div>
-</div>
+<app-navbar></app-navbar>
 
+<div class="container currency-note-bg">
+    <!-- Dashboard Header -->
+    <div class="dashboard-header">
+        <h1>Financial Analytics Dashboard</h1>
+        <p>Visualizing your income, expenses, and AI-driven asset patterns</p>
+    </div>
+
+    <!-- Full-Width Dashboard Rows -->
+    <div class="dashboard-grid">
+        
+        <!-- Row 1: Categorywise Expense -->
+        <div class="card chart-card">
+            <h2>Categorywise Expense (This Month)</h2>
+            <div class="chart-layout-container">
+                <div class="chart-wrapper pie-wrapper">
+                    <canvas id="categorywiseExpenseChart"></canvas>
+                </div>
+                <div class="ai-analysis-box">
+                    <h3>✨ AI Insights</h3>
+                    <p>{{categorywiseExpenseInsight}}</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Row 2: Categorywise Income -->
+        <div class="card chart-card">
+            <h2>Categorywise Income (This Month)</h2>
+            <div class="chart-layout-container">
+                <div class="chart-wrapper pie-wrapper">
+                    <canvas id="categorywiseIncomeChart"></canvas>
+                </div>
+                <div class="ai-analysis-box">
+                    <h3>✨ AI Insights</h3>
+                    <p>{{categorywiseIncomeInsight}}</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Row 3: Monthwise Expense Trend -->
+        <div class="card chart-card">
+            <h2>Monthwise Expense Trend (This Year)</h2>
+            <div class="chart-layout-container">
+                <div class="chart-wrapper trend-wrapper">
+                    <canvas id="monthwiseExpenseChart"></canvas>
+                </div>
+                <div class="ai-analysis-box">
+                    <h3>✨ AI Insights</h3>
+                    <p>{{monthwiseExpenseInsight}}</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Row 4: Monthwise Income Trend -->
+        <div class="card chart-card">
+            <h2>Monthwise Income Trend (This Year)</h2>
+            <div class="chart-layout-container">
+                <div class="chart-wrapper trend-wrapper">
+                    <canvas id="monthwiseIncomeChart"></canvas>
+                </div>
+                <div class="ai-analysis-box">
+                    <h3>✨ AI Insights</h3>
+                    <p>{{monthwiseIncomeInsight}}</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Row 5: Income vs Expense Comparison -->
+        <div class="card chart-card">
+            <h2>Income vs Expense Comparison</h2>
+            <div class="chart-layout-container">
+                <div class="chart-wrapper trend-wrapper">
+                    <canvas id="incomevsexpenseChart"></canvas>
+                </div>
+                <div class="ai-analysis-box">
+                    <h3>✨ AI Insights</h3>
+                    <p>{{incomeVsExpenseInsight}}</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Row 6: Savings Dynamic -->
+        <div class="card chart-card">
+            <h2>Savings Dynamic (This Year)</h2>
+            <div class="chart-layout-container">
+                <div class="chart-wrapper trend-wrapper">
+                    <canvas id="savingsChart"></canvas>
+                </div>
+                <div class="ai-analysis-box">
+                    <h3>✨ AI Insights</h3>
+                    <p>{{savingsDynamicInsight}}</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

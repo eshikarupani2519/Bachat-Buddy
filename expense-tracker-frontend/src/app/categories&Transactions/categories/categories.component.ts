@@ -22,6 +22,7 @@ export class CategoriesComponent {
     transaction_type:new FormControl('expense',Validators.required),
  } )
   categories:any[]=[];
+  filteredcategories:any[]=this.categories;
   constructor(private categoriesService:CategoriesService,private router:Router){}
   ngOnInit(){
     this.getCategories();
@@ -34,17 +35,22 @@ export class CategoriesComponent {
   closeModal() {
      this.isModalOpen=false;
   }
-
+onSearch() {
+  this.filteredcategories = this.categories.filter(cat =>
+    cat.name.toLowerCase().includes(this.search.toLowerCase()) || cat.description?.toLowerCase().includes(this.search.toLowerCase())
+  );
+}
 // main crud
 getCategories(){
   
   this.categoriesService.getCategories().subscribe({
     next:(res:any)=>{
-      console.log(res.body);
+      
      this.categories=res.body;
+     this.filteredcategories=this.categories;
     },
     error:(err:any)=>{
-      alert(err.body);
+      alert(err.body || "Failed to get categories");
     }
   })
   
@@ -61,15 +67,15 @@ addCategory(){
     this.categoryForm.patchValue({user_id:id.toString()})
     
      let data=this.categoryForm.value;
-     console.log(data);
+     
   this.categoriesService.addCategory(data).subscribe({
     next:(res:any)=>{
-      console.log(res.body);
+    
     alert(res.body);
     },
     error:(err:any)=>{
-       console.log(err);
-      alert(err.body);
+       
+      alert(err.body || "Failed to add category");
     }
   })
 }else{
@@ -79,12 +85,12 @@ addCategory(){
      let data=this.categoryForm.value;
   this.categoriesService.editCategory(data,this.idToEdit).subscribe({
     next:(res:any)=>{
-      console.log(res.body);
+      
     alert(res.body);
     },
     error:(err:any)=>{
-       console.log(err.body);
-      alert(err.body);
+     
+      alert(err.body || "Failed to edit category");
     }
   })
 }
@@ -103,7 +109,7 @@ editCategory(cat_id:number){
  this.idToEdit=cat_id;
  this.categoriesService.getCategoryById(cat_id).subscribe({
   next:(res:any)=>{
-    console.log(res.body);
+   
     let data=res.body[0];
      
     this.categoryForm.patchValue({user_id:data.user_id,name:data.name,description:data.description,icon_url:data.icon_url,transaction_type:data.transaction_type});
@@ -120,12 +126,12 @@ deleteCategory(cat_id:number){
   if(id){
   this.categoriesService.deleteCategory(cat_id).subscribe({
     next:(res:any)=>{
-      console.log(res.body);
+      
     alert(res.body);
     },
     error:(err:any)=>{
-       console.log(err.body);
-      alert(err.body);
+     
+      alert(err?.body || "Failed to delete category");
     }
   })
   }

@@ -16,7 +16,7 @@ public class ReportScheduler {
     @Autowired
     EmailSendService emailSendService;
 
-    @Scheduled(cron = "0 * * * * *")
+//    @Scheduled(cron = "0 * * * * *")
     public void sendReport() throws MessagingException {
         System.out.println("sending report..");
 

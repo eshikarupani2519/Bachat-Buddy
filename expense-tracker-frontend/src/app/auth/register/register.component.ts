@@ -35,7 +35,7 @@ export class RegisterComponent {
       this.getFormControl('phone')?.touched 
   }
   submitData() {
-    console.log(this.regFormGroup.value)
+    
 
     if (this.regFormGroup.invalid || this.checkPassword()) {
       alert('Please fill all fields correctly');
@@ -45,12 +45,12 @@ export class RegisterComponent {
     const userData = this.regFormGroup.value;
     this.authService.register(userData).subscribe({
       next: (response:any) => {
-        console.log('User registered:', response);
+        
         alert(response.body);
         this.regFormGroup.reset();
       },
       error: (err: any) => {
-        console.error('Registration error:', err);
+        
         alert(err.error.body||"registeration failed");
       },
     });

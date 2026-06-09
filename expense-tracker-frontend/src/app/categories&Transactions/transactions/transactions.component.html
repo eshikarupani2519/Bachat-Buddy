@@ -1,3 +1,4 @@
+<app-navbar></app-navbar>
 <div class="container ">
 
     <div class="card currency-note">
@@ -6,7 +7,7 @@
         <div class="top-bar">
             <div>
 
-                <input type="text" placeholder="Search transactions based on notes...">
+                <input type="text" [(ngModel)]="search" (ngModelChange)="onSearch()"  placeholder="Search transactions based on notes...">
             </div>
 
             <button (click)="openModal()">Add Transaction</button>
@@ -63,7 +64,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let trans of transactions">
+                <tr *ngFor="let trans of filteredTransactions">
                     <td>{{trans.id}}</td>
                     <td>{{trans.amount}}</td>
                     <td>{{trans.dateOfTransaction}}</td>

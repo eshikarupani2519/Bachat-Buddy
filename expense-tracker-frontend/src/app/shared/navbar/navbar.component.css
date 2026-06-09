@@ -9,6 +9,7 @@ body {
         #e6dbf3 100%
     );
     color: #3e3550;
+    
 }
 
 /* ===== NAVBAR ===== */
@@ -35,6 +36,7 @@ body {
     color: #6f5aa8;
     font-weight: 500;
     transition: 0.3s;
+    cursor:pointer;
 }
 
 .nav-links a:hover {
